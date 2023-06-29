@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import axios from 'axios';
 
 const countries = ['Nicaragua', 'Panama', 'Costa Rica', 'El Salvador'];
@@ -25,25 +25,49 @@ const ClimaScreen = () => {
 
   if (!climaData) {
     return (
-      <View>
-        <Text>Cargando ... </Text>
+      <View style={styles.container}>
+        <Text style={styles.loadingText}>Cargando ... </Text>
       </View>
     );
   }
   return (
-    <View>
+    <View style={styles.container}>
       {climaData.map((clima, index) => (
-        <View key={index}>
-          <Text>
+        <View key={index} style={styles.climaContainer}>
+          <Text style={styles.text}>
             Ubicación: {clima.location.name}, {clima.location.region},{' '}
             {clima.location.country}
           </Text>
           <Text>Temperatura: {clima.current.temp_c}ºC</Text>
           <Text>Condición: {clima.current.condition.text}</Text>
+          <Text style={styles.text}>Viento: {clima.current.wind_kph} kph</Text>
+          <Text style={styles.text}>Humedad: {clima.current.humidity}%</Text>
           <Text>---------------------------------</Text>
         </View>
       ))}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 10,
+    backgroundColor: '#fff',
+  },
+  loadingText: {
+    fontSize: 18,
+    textAlign: 'center',
+  },
+  climaContainer: {
+    marginBottom: 20,
+  },
+  text: {
+    fontSize: 16,
+  },
+  separator: {
+    marginTop: 10,
+    textAlign: 'center',
+  },
+});
 export default ClimaScreen;
