@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import axios from 'axios';
 
-const countries = ['Nicaragua', 'Panama', 'Costa Rica', 'El Salvador'];
+const countries = ['Nicaragua', 'Panama', 'Costa Rica'];
 const ClimaScreen = () => {
   const [climaData, setClimaData] = useState(null);
   useEffect(() => {
@@ -10,14 +10,14 @@ const ClimaScreen = () => {
       try {
         const responsePromises = countries.map(country =>
           axios.get(
-            'https://api.weatherapi.com/v1/current.json?key=89360fad86344f86abb203340232906=${contry}&lang=es',
+            `https://api.weatherapi.com/v1/current.json?key=89360fad86344f86abb203340232906&q=${country}&lang=es`,
           ),
         );
         const responses = await Promise.all(responsePromises);
         const climaDataArray = responses.map(response => response.data);
         setClimaData(climaDataArray);
       } catch (error) {
-        console.error(error);
+        console.error('Error fetching weather data: ', error);
       }
     };
     fetchClimaData();
